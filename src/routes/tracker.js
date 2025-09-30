@@ -10,7 +10,6 @@ export default function trackerRoutes({accountLogModel}) {
       if (!email || !portalName || !portatId || !timestamp || !url) {
         return res.status(400).json({ error: "email, portalName, portatId, timestamp and url are required" });
       }
-
       const log = await accountLogModel.createDocument("logs", req.body);
       res.status(201).json({ message: "Log saved", data: log });
     } catch (err) {
