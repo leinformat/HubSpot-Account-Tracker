@@ -6,8 +6,8 @@ export default function trackerRoutes({accountLogModel}) {
   // POST /api/tracker
   router.post("/", async (req, res) => {
     try {
-      const { email, portalName, portatId, timestamp, url } = req.body;
-      if (!email || !portalName || !portatId || !timestamp || !url) {
+      const { email, portatId, timestamp, url } = req.body;
+      if (!email || !portatId || !timestamp || !url) {
         return res.status(400).json({ error: "email, portalName, portatId, timestamp and url are required" });
       }
       const log = await accountLogModel.createDocument("logs", req.body);
