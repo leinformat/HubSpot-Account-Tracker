@@ -30,27 +30,28 @@ export const insertMultipleDocuments = async(colection,data) =>{
   }
 }
 
-export const getDocuments = async (collectionName, filter = {}, sortBy) => {
+export const getDocuments = async (collectionName, filter = {}, sort = {}, limit = 0) => {
   try {
     const db = await connectDB();
     const collection = db.collection(collectionName);
 
-    let query = collection.find(filter);
+    let cursor = collection.find(filter);
 
-    // if sortBy is provided, apply sorting
-    if (sortBy) {
-      // sortBy = { field: 'date', order: -1 } → -1 desc, 1 asc
-      query = query.sort({ [sortBy.field]: sortBy.order });
+    if (sort.field) {
+      cursor = cursor.sort({ [sort.field]: sort.order || 1 });
     }
 
-    const filteredData = await query.toArray();
-    return filteredData;
+    if (limit > 0) {
+      cursor = cursor.limit(limit);
+    }
+
+    const docs = await cursor.toArray();
+    return docs;
   } catch (error) {
     console.error(error);
-    return [];
+    throw error;
   }
 };
-
 
 export const upsertDocuments = async (colection, data) => {
   const db = await connectDB();

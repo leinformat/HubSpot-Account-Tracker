@@ -57,16 +57,16 @@ export async function getLogs(req, res, accountLogModel) {
 }
 
 export async function searchLogs(req, res, accountLogModel) {
-  const { filter = {}, sort = {} } = req.body;
+  const { filter = {}, sort = {}, limit = 0 } = req.body;
   try {
-    const logs = await accountLogModel.getDocuments("logs", filter, sort);
+    const logs = await accountLogModel.getDocuments("logs", filter, sort, limit);
     const totalCount = logs.length;
 
     return res.json(
       createResponse({
         success: true,
         data: logs,
-        meta: { totalCount, sort, filter },
+        meta: { totalCount, sort, filter, limit },
       })
     );
   } catch (err) {
