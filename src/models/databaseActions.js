@@ -30,18 +30,27 @@ export const insertMultipleDocuments = async(colection,data) =>{
   }
 }
 
-export const getDocuments = async (colection,filter) => {
+export const getDocuments = async (collectionName, filter = {}, sortBy) => {
   try {
     const db = await connectDB();
-    const collection = db.collection(colection);
-    //const filter = { date: '2025-02-04' };
-    const filteredData = await collection.find(filter).toArray();
-    return filteredData;
+    const collection = db.collection(collectionName);
 
+    let query = collection.find(filter);
+
+    // if sortBy is provided, apply sorting
+    if (sortBy) {
+      // sortBy = { field: 'date', order: -1 } → -1 desc, 1 asc
+      query = query.sort({ [sortBy.field]: sortBy.order });
+    }
+
+    const filteredData = await query.toArray();
+    return filteredData;
   } catch (error) {
     console.error(error);
+    return [];
   }
 };
+
 
 export const upsertDocuments = async (colection, data) => {
   const db = await connectDB();
