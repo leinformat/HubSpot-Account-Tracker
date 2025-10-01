@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { createDocument, getDocuments } from "./models/databaseActions.js";
-import trackerRoutes from "./routes/tracker.js";
+import trackerRoutes from "./routes/trackerRoutes.js";
 import { config } from './config/config.js';
 import morgan from "morgan";
 
