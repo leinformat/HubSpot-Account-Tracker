@@ -2,12 +2,12 @@ import { createResponse } from "../utils/index.js";
 
 export async function createLog(req, res, accountLogModel) {
   try {
-    const { email, portatId, timestamp, url } = req.body;
-    if (!email || !portatId || !timestamp || !url) {
+    const { email, portalId, timestamp, url } = req.body;
+    if (!email || !portalId || !timestamp || !url) {
       return res.status(400).json(
         createResponse({
           success: false,
-          error: "email, portalName, portatId, timestamp and url are required",
+          error: "email, portalName, portalId, timestamp and url are required",
         })
       );
     }
